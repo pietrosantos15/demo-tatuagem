@@ -40,23 +40,38 @@ mbtn.addEventListener("click", () => setMenu(!nav.classList.contains("open")));
 nav.querySelectorAll("a").forEach(a => a.addEventListener("click", () => setMenu(false)));
 document.addEventListener("keydown", e => { if (e.key === "Escape") setMenu(false); });
 
-/* Botões de estilo: pré-selecionam o estilo no formulário */
-const form = document.getElementById("form"), err = document.getElementById("err");
-document.querySelectorAll("[data-estilo]").forEach(b => b.addEventListener("click", () => {
-  form.estilo.value = b.dataset.estilo;
-  document.getElementById("contato").scrollIntoView({ behavior: "smooth" });
-  setTimeout(() => form.nome.focus({ preventScroll: true }), 400);
-}));
-
 /* Formulário: monta a mensagem e abre o WhatsApp */
+const form = document.getElementById("form");
 form.addEventListener("submit", e => {
   e.preventDefault();
-  const nome = form.nome.value.trim();
-  err.hidden = !!nome;
-  if (!nome) { form.nome.focus(); return; }
-  const partes = [`Olá! Meu nome é ${nome} e quero agendar um orçamento de tatuagem.`, `Estilo: ${form.estilo.value}.`];
-  if (form.local.value.trim()) partes.push(`Local do corpo: ${form.local.value.trim()}.`);
-  if (form.tamanho.value.trim()) partes.push(`Tamanho aproximado: ${form.tamanho.value.trim()}.`);
-  if (form.ideia.value.trim()) partes.push(`Ideia: ${form.ideia.value.trim()}`);
-  window.open(waUrl(partes.join(" ")), "_blank", "noopener");
+  const v = n => form.elements[n].value.trim();
+  const err = document.getElementById("f-err");
+  if (!v("nome") || !v("local")) { err.hidden = false; (v("nome") ? form.elements.local : form.elements.nome).focus(); return; }
+  err.hidden = true;
+  const msg = [
+    `Olá! Meu nome é ${v("nome")} e quero agendar um orçamento de tatuagem.`,
+    `Estilo: ${v("estilo")}`,
+    `Local do corpo: ${v("local")}`,
+    `Tamanho: ${v("tam")}`,
+    v("ideia") ? `Ideia: ${v("ideia")}` : ""
+  ].filter(Boolean).join("\n");
+  window.open(waUrl(msg), "_blank", "noopener");
+});
+
+/* Atalho dos estilos: pré-seleciona o estilo no formulário */
+document.querySelectorAll("[data-style]").forEach(a => a.addEventListener("click", () => {
+  form.elements.estilo.value = a.dataset.style;
+}));
+
+/* Fotos que não carregam: remove a figura e a grade se reorganiza sem buracos */
+const dropBroken = img => {
+  const fig = img.closest("figure");
+  if (!fig) return;
+  const col = fig.parentElement;
+  fig.remove();
+  if (col && col.classList.contains("m-col") && !col.children.length) col.remove();
+};
+document.querySelectorAll("img").forEach(img => {
+  img.addEventListener("error", () => dropBroken(img));
+  if (img.complete && img.naturalWidth === 0 && img.currentSrc) dropBroken(img);
 });
