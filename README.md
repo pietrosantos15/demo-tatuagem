@@ -14,7 +14,7 @@ Estrutura inspirada em landing pages de estúdios reais: Inkaholik (https://www.
 
 ## Imagens (Unsplash, hotlink; trocar por fotos do estúdio na pasta `assets/`, basta alterar o `src`)
 - Hero: tatuador trabalhando no braço (photo-1568515045052-f9a854d70bfd).
-- Portfólio: costas tatuadas (1607372367558-7421b2982ade), tatuador em P&B (1552627019-947c3789ffb5), braço sombreado (1570168983832-8989dae1522e), coração fineline no dedo (1736628283631-8d9c8167fa88), bíceps (1547754145-ef9ff306e3f3), desenho em papel (1537209383625-19584677a4d3).
+- Portfólio: costas tatuadas (1759247943094-38c725526a5d), tatuador em P&B (1552627019-947c3789ffb5), braço sombreado (1570168983832-8989dae1522e), coração fineline no dedo (1736628283631-8d9c8167fa88), bíceps (1547754145-ef9ff306e3f3), desenho em papel (1537209383625-19584677a4d3).
 - As fotos aparecem em tons de cinza (filtro CSS) para dar unidade; remova `filter` se preferir cor.
 
 ## Antes de publicar (versão final)
